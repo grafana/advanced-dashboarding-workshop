@@ -12,7 +12,39 @@ The existing dashboard shows request volume spiking during the campaign -- that'
 
 ---
 
-## Task 1: Pull in orders data from MySQL
+## Task 1: Style the banner panel
+
+**Features: HTML content in text panels**
+
+The dashboard already has a plain markdown text panel at the top. Before we add data, let's make it look like a campaign command center.
+
+### Steps
+
+1. Click the banner panel → **Edit**.
+2. In the panel editor, change **Content type** from `Markdown` to `HTML`.
+3. Replace the content with an HTML `<div>` that uses a dark gradient background, bold white title, and a subtitle line referencing the Geography/Device filters and annotations. For example:
+
+   ```html
+   <div style="background: linear-gradient(135deg, #0d1b3e 0%, #1a2f6e 35%, #2d1b69 70%, #4a1459 100%); padding: 18px 28px; border-radius: 8px; border-left: 5px solid #5b8dee; height: 100%; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box;">
+     <div style="font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px; margin-bottom: 6px;">
+       Bigger Than Jupiter Sale — Campaign Command Center
+     </div>
+     <div style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.6;">
+       <span style="color: #a78bfa; font-weight: 600;">Astronomix</span> · Spring Equinox Flash Sale |
+       Filter by <span style="color: #7eb8f7; font-weight: 600;">Geography</span> and
+       <span style="color: #7eb8f7; font-weight: 600;">Device</span> using the dropdowns above ·
+       Dashed annotations mark key campaign events.
+     </div>
+   </div>
+   ```
+
+4. Click **Apply**.
+
+> **Why this matters:** A styled banner immediately tells the viewer *what this dashboard is for*. It sets the context before anyone looks at a single number.
+
+---
+
+## Task 2: Pull in orders data from MySQL
 
 **Features: Using additional data sources, Time Filter macro**
 
@@ -88,7 +120,7 @@ The two charts side by side will already tell an interesting story: if traffic g
 
 ---
 
-## Task 2: Write a SQL Expression to surface "Revenue Per Visitor"
+## Task 3: Write a SQL Expression to surface "Revenue Per Visitor"
 
 **Features: SQL Expressions**
 
@@ -126,6 +158,7 @@ We'll combine both sources using a **SQL Expression**, which runs an in-memory S
      sum(increase(app_frontend_sessions_created_total[$__range]))
      ```
 
+   - Set as **Instant** query.
    - Click the **eye icon** to hide this query too.
 
 5. **Add Query C** — SQL Expression:
@@ -138,7 +171,7 @@ We'll combine both sources using a **SQL Expression**, which runs an in-memory S
    - Paste:
 
      ```sql
-     SELECT A.revenue / B.__value__ AS revenue_per_visitor FROM A, B
+     SELECT A.revenue / B.__value__ AS revenue_per_visitor FROM A, B LIMIT 1
      ```
 
    - Leave this query **visible** -- this is what the panel displays.
@@ -147,7 +180,7 @@ We'll combine both sources using a **SQL Expression**, which runs an in-memory S
      ![All three queries configured](img/task2-all-queries.png)
 
 6. Set **Title** to `Revenue Per Visitor`.
-7. Under **Field** → **Unit**, set to `Currency` → `US Dollar ($)`.
+7. Under **Field** → **Unit**, set to `Currency` → `US Dollar ($)`, decimals `2`.
 8. Under **Stat styles** → **Color mode**, set to `Background`.
 9. Click **Apply**, then **Save dashboard**.
 
@@ -158,7 +191,7 @@ We'll combine both sources using a **SQL Expression**, which runs an in-memory S
 
 ---
 
-## Task 3: Add campaign annotations with Infinity
+## Task 4: Add campaign annotations with Infinity
 
 **Features: Infinity data source, Annotating visualizations**
 
@@ -218,7 +251,7 @@ These annotations are toggle-able: click the **Campaign Events** toggle at the t
 
 ---
 
-## Task 4: Use a transformation to tidy up panel labels
+## Task 5: Use a transformation to tidy up panel labels
 
 **Features: Transformations**
 
@@ -230,7 +263,7 @@ Use a **Rename by Regex** transformation to strip the namespace prefix from serv
 
 ### Steps
 
-1. Edit a time series panel that displays Prometheus data with `job` labels (e.g., the error rate or request rate panel).
+1. Edit the **Request Rate by Service** time series panel.
 2. Click the **Transform** tab.
 3. Click **Add transformation** and search for **Rename by Regex**.
 
@@ -251,14 +284,75 @@ Use a **Rename by Regex** transformation to strip the namespace prefix from serv
 
 ---
 
+## Task 6: Configure the Polystat panel (Sales Health by Geography)
+
+**Features: Polystat plugin, composite scoring**
+
+The dashboard has a **Sales Health by Geography** panel that already has its data query -- a composite score per geography combining timeout rate, success rate, revenue health, and refund rate. But the display isn't configured yet. Your job is to make it visual.
+
+### Steps
+
+1. Edit the **Sales Health by Geography** panel.
+2. In **Panel options**, set:
+   - **Shape:** Hexagon (pointed top)
+   - **Polygon size:** `25`
+   - **Display mode:** All (show label + value)
+   - **Decimals:** `1`
+   - **Value font size:** `14`, **Label font size:** `12`
+3. Set **Global thresholds** (3 levels):
+   - `0` → Red (`rgba(245, 54, 54, 0.9)`)
+   - `85` → Orange (`rgba(237, 129, 40, 0.89)`)
+   - `95` → Green (`rgba(50, 172, 45, 0.97)`)
+4. Enable **Tooltips** with value and timestamp shown.
+5. Click **Apply**.
+
+### Verify
+
+Each geography should render as a coloured hexagon -- red if health < 85, orange 85-95, green >= 95.
+
+> **Why this matters:** The polystat gives an instant "traffic light" view of every market. The VP can scan it in one second and know where to focus. This is the kind of panel that earns a dashboard a permanent spot on the wall.
+
+---
+
+## Task 7: Convert the User-Facing Error Rate panel to a table
+
+**Features: Transformations (Reduce, Sort, Organize fields)**
+
+The **User-Facing Error Rate** panel is currently a time series. That's useful for trends, but what the VP really wants is a ranked list: *which user actions are failing most right now?* A table with colour-coded cells answers that question instantly.
+
+### Steps
+
+1. Edit the **User-Facing Error Rate** panel → change the panel type from **Time series** to **Table**.
+2. Go to the **Transform** tab:
+   - Add **Reduce** -- include all series, calculations: `Mean` and `Max`
+   - Add **Sort by** -- sort by `Mean`, descending
+   - Add **Organize fields** -- rename the `Field` column to `User Action`
+3. In **Field config** → **Overrides**, add an override `By name` → `Mean` and `Max`:
+   - Set **Cell display mode** to `Color background`
+   - Set **Thresholds:** green at `0`, yellow at `2`, red at `10`
+   - Set **Unit:** `Percent (0-100)`
+   - Set **Decimals:** `1`
+4. Click **Apply**.
+
+### Verify
+
+The table should show user actions (e.g. `view-products`, `add-product-to-cart`) ranked by mean error rate with colour-coded cells -- green for healthy, yellow for concerning, red for critical.
+
+> **Why this matters:** A ranked, colour-coded table is one of the most effective visualisations for identifying *which* part of the user journey is broken. The VP doesn't need to interpret a spaghetti chart -- the worst action is always at the top, always red.
+
+---
+
 ## Lab 1 Recap
 
 By the end of Lab 1, you have a dashboard that:
 
+- Has a **styled banner** that identifies the campaign and hints at the interactive controls
 - Shows **business performance** (orders, revenue, revenue per visitor) alongside system health
 - **Calculates a key business metric** (revenue per visitor) that doesn't exist in any single system
 - Has **campaign events annotated** on the timeline so spikes are never a mystery
 - Has **clean, readable labels** instead of verbose Prometheus internals
+- Provides **at-a-glance market health** via the polystat hexagons
+- Shows a **ranked error rate table** so you can instantly see which user actions are failing
 
 > **TODO: Screenshot** — Show the full completed Lab 1 dashboard with all panels, annotations, and clean labels.
 ![Completed Lab 1 dashboard](img/lab1-completed-dashboard.png)

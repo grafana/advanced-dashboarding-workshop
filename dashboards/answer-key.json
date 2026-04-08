@@ -2028,7 +2028,7 @@
     "timezone": "browser",
     "to": "now"
   },
-  "title": "[STEP 3] Advanced Dashboarding - End State V2",
+  "title": "Advanced Dashboarding - End State",
   "variables": [
     {
       "kind": "QueryVariable",
