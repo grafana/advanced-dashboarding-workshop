@@ -464,7 +464,7 @@
                         {
                           "targetBlank": true,
                           "title": "View traces — ${__data.fields[Field]}",
-                          "url": "/explore?left={\"datasource\":\"grafanacloud-traces\",\"queries\":[{\"refId\":\"A\",\"query\":\"{name=\\\"${__data.fields[Field]}\\\"}\" ,\"queryType\":\"traceql\"}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}"
+                          "url": "/explore?left={\"datasource\":\"grafanacloud-traces\",\"queries\":[{\"refId\":\"A\",\"query\":\"{name=\\\"${__data.fields[Field]}\\\"}\" ,\"queryType\":\"traceql\"}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}}\"}}"
                         }
                       ]
                     }
@@ -1154,215 +1154,6 @@
         }
       }
     },
-    "panel-76": {
-      "kind": "Panel",
-      "spec": {
-        "data": {
-          "kind": "QueryGroup",
-          "spec": {
-            "queries": [
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": false,
-                  "query": {
-                    "datasource": {
-                      "name": "orders-mysql-appenv"
-                    },
-                    "group": "mysql",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "app": "grafana-assistant-app",
-                      "format": "table",
-                      "range": false,
-                      "rawSql": "SELECT AVG(total_amount) AS 'Avg Order Value' FROM orders.orders WHERE $__timeFilter(order_date)"
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "A"
-                }
-              }
-            ],
-            "queryOptions": {},
-            "transformations": []
-          }
-        },
-        "description": "Average transaction size during the flash sale window. Rising AOV suggests customers are adding accessories, bundles, or premium items.",
-        "id": 76,
-        "links": [],
-        "title": "Avg Order Value",
-        "vizConfig": {
-          "group": "stat",
-          "kind": "VizConfig",
-          "spec": {
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                },
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "orange",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "currencyUSD"
-              },
-              "overrides": []
-            },
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            }
-          },
-          "version": "13.0.0-24089266308"
-        }
-      }
-    },
-    "panel-77": {
-      "kind": "Panel",
-      "spec": {
-        "data": {
-          "kind": "QueryGroup",
-          "spec": {
-            "queries": [
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": true,
-                  "query": {
-                    "datasource": {
-                      "name": "orders-mysql-appenv"
-                    },
-                    "group": "mysql",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "app": "grafana-assistant-app",
-                      "editorMode": "code",
-                      "format": "table",
-                      "range": false,
-                      "rawQuery": true,
-                      "rawSql": "SELECT SUM(o.total_amount) AS revenue\nFROM orders.orders o\nJOIN orders.customers c ON o.customer_id = c.customer_id\nWHERE $__timeFilter(o.order_date)\n  AND c.country IN (${geography:singlequote})\n  AND o.device IN (${device:singlequote})"
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "A"
-                }
-              },
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": true,
-                  "query": {
-                    "datasource": {
-                      "name": "grafanacloud-prom"
-                    },
-                    "group": "prometheus",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "app": "grafana-assistant-app",
-                      "expr": "sum(increase(app_frontend_sessions_created_total{geography=~\"${geography:regex}\",device=~\"${device:regex}\"}[$__range]))",
-                      "instant": true,
-                      "legendFormat": "__auto",
-                      "queryType": "instant",
-                      "range": false
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "B"
-                }
-              },
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": false,
-                  "query": {
-                    "datasource": {
-                      "name": "__expr__"
-                    },
-                    "group": "__expr__",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "app": "grafana-assistant-app",
-                      "expression": "SELECT A.revenue / B.__value__ AS revenue_per_visitor FROM A, B LIMIT 1",
-                      "type": "sql"
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "C"
-                }
-              }
-            ],
-            "queryOptions": {},
-            "transformations": []
-          }
-        },
-        "description": "The campaign efficiency metric: total revenue divided by total unique visitors. A rising value means the sale is converting well and customers are spending more per visit.",
-        "id": 77,
-        "links": [],
-        "title": "Revenue Per Visitor",
-        "vizConfig": {
-          "group": "stat",
-          "kind": "VizConfig",
-          "spec": {
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "fixedColor": "green",
-                  "mode": "fixed"
-                },
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "currencyUSD"
-              },
-              "overrides": []
-            },
-            "options": {
-              "colorMode": "background_solid",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            }
-          },
-          "version": "13.0.0-24089266308"
-        }
-      }
-    },
     "panel-79": {
       "kind": "Panel",
       "spec": {
@@ -1671,7 +1462,7 @@
         "description": "Total revenue per geography during the flash sale. Identifies top-performing markets.",
         "id": 81,
         "links": [],
-        "title": "Revenue by Market",
+        "title": "Total Revenue by Market",
         "vizConfig": {
           "group": "barchart",
           "kind": "VizConfig",
@@ -2010,8 +1801,8 @@
                         "kind": "ElementReference",
                         "name": "panel-75"
                       },
-                      "height": 3,
-                      "width": 7,
+                      "height": 6,
+                      "width": 5,
                       "x": 0,
                       "y": 3
                     }
@@ -2023,9 +1814,22 @@
                         "kind": "ElementReference",
                         "name": "panel-74"
                       },
-                      "height": 3,
-                      "width": 7,
-                      "x": 7,
+                      "height": 6,
+                      "width": 5,
+                      "x": 5,
+                      "y": 3
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-73"
+                      },
+                      "height": 6,
+                      "width": 4,
+                      "x": 10,
                       "y": 3
                     }
                   },
@@ -2047,49 +1851,10 @@
                     "spec": {
                       "element": {
                         "kind": "ElementReference",
-                        "name": "panel-73"
-                      },
-                      "height": 3,
-                      "width": 4,
-                      "x": 0,
-                      "y": 6
-                    }
-                  },
-                  {
-                    "kind": "GridLayoutItem",
-                    "spec": {
-                      "element": {
-                        "kind": "ElementReference",
-                        "name": "panel-77"
-                      },
-                      "height": 3,
-                      "width": 5,
-                      "x": 4,
-                      "y": 6
-                    }
-                  },
-                  {
-                    "kind": "GridLayoutItem",
-                    "spec": {
-                      "element": {
-                        "kind": "ElementReference",
-                        "name": "panel-76"
-                      },
-                      "height": 3,
-                      "width": 5,
-                      "x": 9,
-                      "y": 6
-                    }
-                  },
-                  {
-                    "kind": "GridLayoutItem",
-                    "spec": {
-                      "element": {
-                        "kind": "ElementReference",
                         "name": "panel-79"
                       },
-                      "height": 8,
-                      "width": 14,
+                      "height": 9,
+                      "width": 12,
                       "x": 0,
                       "y": 9
                     }
@@ -2101,9 +1866,9 @@
                         "kind": "ElementReference",
                         "name": "panel-32"
                       },
-                      "height": 8,
-                      "width": 10,
-                      "x": 14,
+                      "height": 9,
+                      "width": 12,
+                      "x": 12,
                       "y": 9
                     }
                   }
@@ -2130,7 +1895,7 @@
                         "kind": "ElementReference",
                         "name": "panel-80"
                       },
-                      "height": 5,
+                      "height": 7,
                       "width": 9,
                       "x": 0,
                       "y": 0
@@ -2143,7 +1908,7 @@
                         "kind": "ElementReference",
                         "name": "panel-64"
                       },
-                      "height": 5,
+                      "height": 7,
                       "width": 15,
                       "x": 9,
                       "y": 0
@@ -2159,7 +1924,7 @@
                       "height": 8,
                       "width": 24,
                       "x": 0,
-                      "y": 5
+                      "y": 7
                     }
                   }
                 ]
@@ -2258,7 +2023,7 @@
       "1d"
     ],
     "fiscalYearStartMonth": 0,
-    "from": "now-1h",
+    "from": "now-3h",
     "hideTimepicker": false,
     "timezone": "browser",
     "to": "now"
