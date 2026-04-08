@@ -452,6 +452,21 @@
                     {
                       "id": "custom.width",
                       "value": 220
+                    },
+                    {
+                      "id": "links",
+                      "value": [
+                        {
+                          "targetBlank": true,
+                          "title": "View logs — ${__data.fields[Field]}",
+                          "url": "/explore?left={\"datasource\":\"grafanacloud-logs\",\"queries\":[{\"refId\":\"A\",\"expr\":\"{} |= \\\"${__data.fields[Field]}\\\"\",\"queryType\":\"range\"}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}"
+                        },
+                        {
+                          "targetBlank": true,
+                          "title": "View traces — ${__data.fields[Field]}",
+                          "url": "/explore?left={\"datasource\":\"grafanacloud-traces\",\"queries\":[{\"refId\":\"A\",\"query\":\"{name=\\\"${__data.fields[Field]}\\\"}\" ,\"queryType\":\"traceql\"}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2196,7 +2211,7 @@
                         "kind": "ElementReference",
                         "name": "panel-61"
                       },
-                      "height": 11,
+                      "height": 12,
                       "width": 11,
                       "x": 13,
                       "y": 0
@@ -2209,7 +2224,7 @@
                         "kind": "ElementReference",
                         "name": "panel-59"
                       },
-                      "height": 6,
+                      "height": 7,
                       "width": 13,
                       "x": 0,
                       "y": 5
