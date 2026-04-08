@@ -251,12 +251,6 @@ Use a **Rename by Regex** transformation to strip the namespace prefix from serv
 
 ---
 
-## Task 5: Ask Assistant
-
-<!-- TODO: Define the Assistant task -->
-
----
-
 ## Lab 1 Recap
 
 By the end of Lab 1, you have a dashboard that:
