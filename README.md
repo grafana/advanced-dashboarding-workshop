@@ -2,6 +2,13 @@
 
 <p align="center"><img src="img/grot_dashboard.png" alt="Grot Dashboard" width="50%"></p>
 
+## Updating the docs
+
+To compress a screen recording (for animations):
+
+    ffmpeg -i recording.webm -c:v libvpx-vp9 -crf 40 -b:v 0 -an recording-compressed.webm
+
+
 ## The Scenario
 
 **Astronomix** is an online telescope and astronomy equipment retailer. They've just launched a **Bigger Than Jupiter Sale** -- a short flash sale timed around the spring equinox. It's your job to build the *Campaign Command Center*: a single Grafana dashboard that the VP of Commerce will review during the flash sale.
