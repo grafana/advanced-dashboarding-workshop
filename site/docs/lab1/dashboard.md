@@ -36,11 +36,13 @@ Now let's create the initial dashboard. We want to show the number of frontend s
     ```assistant title="Suggested prompt"
     Please create an operations dashboard for my ecommerce application. 
     
-    Give high level stats for the number of frontend sessions, and the number of checkout orders. 
+    Give high level stats for the number of frontend sessions, the number of checkout orders, rate of frontend requests and percentage of errors (non-2xx status codes).
     
-    Then add a couple of other relevant panels based on what you find, grouping by geography if available.
+    Show two time series: frontend initiate-checkout actions (broken down by status code) and frontend sessions created over time.
+    
+    Please also add a panel which shows recent error logs from Loki.
     ```
-    
+
     Wait for Grafana Assistant to create the dashboard.
 
 3.  Once Assistant has finished, review the dashboard and rearrange any panels how you like them.
@@ -50,7 +52,7 @@ Now let's create the initial dashboard. We want to show the number of frontend s
 </TabItem>
   <TabItem value="manual" label="From a template">
 
-1.  From the top bar, search for the dashboard **Ecommerce Operations Starter**.
+1.  From the top bar, search for the dashboard **Ecommerce Operations (Starter)**.
 
 2.  When the dashboard has loaded, click **Edit** and then **Save as copy** to save to your personal folder.
 

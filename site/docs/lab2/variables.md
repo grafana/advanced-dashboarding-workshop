@@ -87,20 +87,30 @@ Order matters — `$geography` must appear above `$device` in the variables list
 
 **Feature:** <GrafanaFeature>Dashboard variables</GrafanaFeature>
 
-Now you'll wire the variables into the **Requests by Status Code** panel, and use it to surface what's actually happening in GB.
+Now you'll wire the variables into the **Initiate Checkout Actions by Status Code** panel, and use it to surface what's actually happening in GB.
 
 ### Note the current error rate
 
-Before you make any changes, look at the **Requests by Status Code** panel on your dashboard and note the current ratio of error responses (4xx/5xx) to successful ones (2xx). This is the aggregate view across all geographies.
+Before you make any changes, look at the **Initiate Checkout Actions by Status Code** (or similarly named) panel on your dashboard and note the current ratio of error responses (4xx/5xx) to successful ones (2xx). This is the aggregate view across all geographies.
 
 ### Wire the variables into the panel
 
-1. Click the **Requests by Status Code** panel → **Edit**.
-2. In the query editor, find the label selectors in the PromQL query. Add the geography and device variable filters:
+1. Click the **Initiate Checkout Actions by Status Code** panel → **Edit**.
+2. In the query editor, find the label selectors in the PromQL query. Add the geography and device variable filters into the label selectors, using regex matching to allow for multiple selections. For example:
 
    ```promql
-   {geography=~"${geography:regex}", device=~"${device:regex}"}
+   page_attr_device=~"${device:regex}", page_attr_geography=~"${geography:regex}"
    ```
+   
+   Your query should now look like this:
+
+    ```promql
+    sum by(event_data_http_status_code) (feo11y:frontend_actions_requests:rate5m{
+       action_name="initiate-checkout", 
+       page_attr_device=~"${device:regex}", 
+       page_attr_geography=~"${geography:regex}"
+    })
+    ```
 
    :::grot-tip[How variable interpolation works]
 
