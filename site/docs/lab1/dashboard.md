@@ -47,7 +47,18 @@ Now let's create the initial dashboard. We want to show the number of frontend s
 
 3.  Once Assistant has finished, review the dashboard and rearrange any panels how you like them.
 
-4.  Finally, make sure you save your changes by clicking **Save**, then **select your personal folder**, and click the **Save** button.
+    Your finished dashboard should look something like this:
+
+    ![The generated dashboard](/img/initial_dashboard.webp)
+
+    #### Need to fix something?
+    If Assistant has created some panels that you don't like, or the panels are showing No Data, you can guide it with a further corrective prompt, like this:
+
+    ```assistant title="Suggested prompt (optional)"
+    Panel <X> is showing No Data. Can you fix it?
+    ```
+    
+4.  Once you're happy with your dashboard, save your changes by clicking **Save**, then **select your personal folder**, and click the **Save** button.
 
 </TabItem>
   <TabItem value="manual" label="From a template">

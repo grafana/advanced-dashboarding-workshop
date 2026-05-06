@@ -65,13 +65,15 @@ The dashboard already has a plain Markdown text panel at the top. Before we add 
 4. **Clear the panel title**, and ensure **Transparent background** is selected.
 6. Click **Apply**.
 
-## That's it!
+## Wrapping up
 
 Now your dashboard:
 
 - Has a **styled banner** that identifies the campaign and hints at the interactive controls
 - Has **clean, readable labels** instead of verbose Prometheus internals
 - Moves technical content to a separate tab
+
+## The End
 
 You've reached the end of this workshop! You can now:
 

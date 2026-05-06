@@ -138,6 +138,11 @@ Please create another panel similar to the orders this time period panel, showin
 </TabItem>
 </Tabs>
 
+### Review the dashboard
+
+Admire your handiwork so far! Now we've got operational metrics (sessions, errors) alongside business metrics (orders, revenue), we can start to understand not just how much traffic we have, but whether that traffic is converting into sales.
+
+![Dashboard with transactional data from MySQL](/img/dashboard_with_business_metrics.webp)
 
 ---
 
@@ -145,7 +150,7 @@ Please create another panel similar to the orders this time period panel, showin
 
 **Features:** <GrafanaFeature>Infinity data source</GrafanaFeature>, <GrafanaFeature>Annotations</GrafanaFeature>
 
-Annotations in Grafana are a way to add context to your dashboards. They are vertical lines that can be plotted on top of time series panels to mark specific events or periods of time. This helps users correlate changes in the data with real-world events. 
+Annotations in Grafana are a great way to add context to your dashboards. Annotations are vertical lines plotted on top of time series panels to mark specific events or periods of time. This helps users correlate changes in the data with real-world events. 
 
 Without annotations, every unexpected spike might require contextual knowledge. But with annotations, you can pull in events from anywhere, like:
 
@@ -153,7 +158,7 @@ Without annotations, every unexpected spike might require contextual knowledge. 
 - database errors
 - new feature launches
 
-In this task we'll combine Annotations with the [Infinity data source plugin](https://grafana.com/docs/plugins/yesoreyeram-infinity-datasource/latest/), to augment the dashboard with events from our marketing automation tool, so we can see when a flash sale is going on, and how it might affect our revenue.
+In this task we'll combine Annotations with the [Infinity data source plugin](https://grafana.com/docs/plugins/yesoreyeram-infinity-datasource/latest/), to augment the dashboard with events from our marketing automation software's API, so we can see when a flash sale is going on, and how it might affect our revenue.
 
 Now when the sales director sees a spike in orders, they know *why*: because an email went out. 
 
