@@ -129,10 +129,11 @@ Rather than building the panel from scratch, we've prepared it as a **Library Pa
 
 ### Import the Orders vs Sessions panel
 
-1. Click **Add** → **Library panel**.
-2. Search for **Sessions vs Orders by Geography** and click **Add panel**.
-3. Drag it into position on the dashboard alongside your other panels.
-4. Click **Save**.
+1.  Click the **+** (Add new element) icon in the top right corner, then click the empty panel and drag it onto the dashboard.
+2.  On the new panel, click **Use library panel**.
+3.  Search for **Orders vs Sessions by Geography** and click to select it.
+4.  Drag it into position on the dashboard alongside your other panels.
+5.  Click **Save**.
 
 ### What does the chart tell us?
 
