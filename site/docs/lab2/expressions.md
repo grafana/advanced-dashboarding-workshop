@@ -79,18 +79,35 @@ We'll use it to calculate **Revenue per Session (RPS)**: how much revenue, on av
 
 4. Change the visualization type to **Stat**.
 
-5. Style the panel:
+### Style it out
 
-    | Search for | Set property                  | To value                    |
-    |------------|-------------------------------|-----------------------------|
-    | `unit`     | **Standard options -> Unit**  | **Currency -> Dollars ($)** |
-    | `color`    | **Stat styles -> Color mode** | **Background Solid**        |
-    | `color`    | **Color scheme**              | **Single color**            |
-    | `color`    | **Color**                     | **Green**                   |
+1. Now, style the panel to make it clear and visually appealing. We can use Assistant to help us out:
 
-6. Click **Apply**.
+    <Tabs groupId="implementation-methods">
+      <TabItem value="ai" label="With Grafana Assistant">
 
-You now have a single stat panel showing the average revenue each visitor generates — one number, drawn from two completely separate backends.
+    ```assistant title="Suggested prompt"
+    Please format the Revenue per session panel in dollars, with a green background.
+    ```
+
+      </TabItem>
+      <TabItem value="manual" label="Manually">
+
+        Set the following properties using the panel editor. You can use the search function in the panel editor to quickly find properties by name:
+
+       | Search for | Set property                  | To value                    |
+       |------------|-------------------------------|-----------------------------|
+       | `unit`     | **Standard options -> Unit**  | **Currency -> Dollars ($)** |
+       | `color`    | **Stat styles -> Color mode** | **Background Solid**        |
+       | `color`    | **Color scheme**              | **Single color**            |
+       | `color`    | **Color**                     | **Green**                   |
+
+      </TabItem>
+    </Tabs>
+
+2. Click **Back to dashboard**.
+
+You now have a single Stat panel showing the average revenue each visitor generates — one number, drawn from two completely separate backends.
 
 ---
 
