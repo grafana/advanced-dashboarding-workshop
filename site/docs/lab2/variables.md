@@ -17,11 +17,11 @@ That bar chart makes it really clear that GB is underperforming.
 Is there any way we can filter the whole dashboard to just show GB data? I want to dig into what's happening there.
 </SlackMessage>
 
-The answer is **dashboard variables** — dropdowns that filter every panel on the dashboard simultaneously. You'll add two: one for geography, and one for device that automatically narrows based on the geography you select.
+The answer is **dashboard variables** — dropdowns that filter every panel on the dashboard simultaneously. You'll add one for geography.
 
 ---
 
-## Task 1: Add geography and device variables
+## Task 1: Add geography variable
 
 **Feature:** <GrafanaFeature>Dashboard variables</GrafanaFeature>
 
@@ -47,78 +47,47 @@ The answer is **dashboard variables** — dropdowns that filter every panel on t
 
    - Refresh: **On dashboard load**
 
-4. Click **Preview** to confirm countries appear, then click **Close**.
-
-### Create the `$device` variable
-
-1. Click **+ Add variable**.
-2. Configure the variable:
-   - Type: **Query**
-   - Name: `device`
-   - Label: `Device`
-   - Multi-value: **enabled**
-   - Include All value: **enabled**
-
-3. Click **Open variable editor** and configure the query:
-   - Data source: **Orders MySQL**
-   - Query:
-
-     ```sql
-     SELECT DISTINCT o.device FROM orders.orders o
-     JOIN orders.customers c ON o.customer_id = c.customer_id
-     WHERE c.country IN (${geography:singlequote})
-     AND o.device IS NOT NULL
-     ORDER BY o.device
-     ```
-
-   - Refresh: **On time range change**
-
-4. Click **Preview**, then change the Geography dropdown to `GB` — the device list should update to show only devices seen in GB. Click **Save**.
-
-:::grot-tip[Variable ordering]
-
-Order matters — `$geography` must appear above `$device` in the variables list so it resolves first.
-
-:::
+4. Click **Preview** to confirm countries appear, then click **Save**.
 
 ---
 
-## Task 2: Use the variables to investigate GB
+## Task 2: Use the variable to investigate one country
 
 **Feature:** <GrafanaFeature>Dashboard variables</GrafanaFeature>
 
-Now you'll wire the variables into the **Initiate Checkout Actions by Status Code** panel, and use it to surface what's actually happening in GB.
+Now you'll wire the variable into the **Initiate Checkout Actions by Status Code** panel, and use it to surface what's actually happening in GB.
 
 ### Note the current error rate
 
 Before you make any changes, look at the **Initiate Checkout Actions by Status Code** (or similarly named) panel on your dashboard and note the current ratio of error responses (4xx/5xx) to successful ones (2xx). This is the aggregate view across all geographies.
 
-### Wire the variables into the panel
+### Wire the variable into the panel
 
-1. Click the **Initiate Checkout Actions by Status Code** panel → **Edit**.
-2. In the query editor, find the label selectors in the PromQL query. Add the geography and device variable filters into the label selectors, using regex matching to allow for multiple selections. For example:
+1.  Click the **Initiate Checkout Actions by Status Code** panel → **Edit**.
+2.  In the query editor, find the label selectors in the PromQL query. They are inside braces, like this: `{ ... }`.
 
-   ```promql
-   page_attr_device=~"${device:regex}", page_attr_geography=~"${geography:regex}"
-   ```
-   
-   Your query should now look like this:
+    Add the `page_attr_geography` variable filter into the label selectors, using Grafana's `regex` keyword which allows for multiple selections. Here's the syntax:
+
+    ```
+    page_attr_geography=~"${geography:regex}"
+    ```
+
+    Your query should now look like this:
 
     ```promql
     sum by(event_data_http_status_code) (feo11y:frontend_actions_requests:rate5m{
        action_name="initiate-checkout", 
-       page_attr_device=~"${device:regex}", 
        page_attr_geography=~"${geography:regex}"
     })
     ```
 
-   :::grot-tip[How variable interpolation works]
+    :::tip
 
-   `${geography:regex}` tells Grafana to format the variable's current value as a regex-compatible string. If multiple geographies are selected, it expands to `GB|US|SE` automatically.
+    If you don't see any data, make sure you've selected multiple geographies in the variable dropdown.
 
-   :::
+    :::
 
-3. Click **Apply**, then **Save** the dashboard.
+3. Click **Back to dashboard**, then **Save** the dashboard.
 
 ### Filter to GB and observe
 
@@ -133,7 +102,7 @@ This is the value of segment-level filtering over aggregate dashboards: the prob
 
 ## Wrapping up
 
-You've turned a static dashboard into an interactive investigation tool. By adding chained variables and wiring them into a single panel, you've gone from "GB's conversion is low" to "GB has an elevated error rate" -- and you didn't leave Grafana.
+You've turned a static dashboard into an interactive investigation tool. By adding a variable and wiring it into a panel, you've gone from "GB's conversion is low" to "GB has an elevated error rate" — and you didn't leave Grafana.
 
 In the next lab, you'll take this one level deeper: find the specific orders affected by those errors, and take action on them directly from the dashboard.
 
