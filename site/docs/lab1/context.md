@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 The dashboard is pretty good so far. It shows large, easy-to-read stats, request volumes, errors, and more. It also shows traffic during the campaign.
 
-TODO: Add screenshot of dashboard.
+![The generated dashboard](/img/initial_dashboard.webp)
 
 But your operations director wants to know: are we actually converting that traffic into orders? And what external factors might be affecting sales performance?
 
