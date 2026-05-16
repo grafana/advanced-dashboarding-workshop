@@ -1,2 +1,6 @@
 /dev
 .claude
+.idea/
+.playwright-mcp/
+backups/
+
