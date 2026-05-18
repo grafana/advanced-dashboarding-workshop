@@ -6,6 +6,7 @@ import SlackMessage from '@site/src/components/SlackMessage';
 import GrafanaFeature from '@site/src/components/GrafanaFeature';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # 2.2 Filter and investigate
 
@@ -49,22 +50,12 @@ The answer is **dashboard variables** — dropdowns that filter every panel on t
 
 4. Click **Preview** to confirm countries appear, then click **Save**.
 
----
-
-## Task 2: Use the variable to investigate one country
-
-**Feature:** <GrafanaFeature>Dashboard variables</GrafanaFeature>
-
-Now you'll wire the variable into the **Initiate Checkout Actions by Status Code** panel, and use it to surface what's actually happening in GB.
-
-### Note the current error rate
-
-Before you make any changes, look at the **Initiate Checkout Actions by Status Code** (or similarly named) panel on your dashboard and note the current ratio of error responses (4xx/5xx) to successful ones (2xx). This is the aggregate view across all geographies.
-
 ### Wire the variable into the panel
 
+The second part of setting up a variable is wiring it into the relevant panels. In this case, we'll do one panel together, and then you can apply the same logic to any other panels you want to filter by geography.
+
 1.  Click the **Initiate Checkout Actions by Status Code** panel → **Edit**.
-2.  In the query editor, find the label selectors in the PromQL query. They are inside braces, like this: `{ ... }`.
+2.  In the query editor, find the _label selectors_ in the PromQL query. They are the entries inside braces, like this: `{ ... }`.
 
     Add the `page_attr_geography` variable filter into the label selectors, using Grafana's `regex` keyword which allows for multiple selections. Here's the syntax:
 
@@ -81,20 +72,35 @@ Before you make any changes, look at the **Initiate Checkout Actions by Status C
     })
     ```
 
-    :::tip
+3.  **Important:** Find the Geography dropdown in the top left, and select the **All** option. Let's view all geographies together first, before we filter down to GB.
 
-    If you don't see any data, make sure you've selected multiple geographies in the variable dropdown.
+    ![Ensure All is selected in the Geography dropdown](/img/variables_selectall.webp)
 
-    :::
+4.  Click **Back to dashboard**, then **Save** the dashboard.
 
-3. Click **Back to dashboard**, then **Save** the dashboard.
+
+---
+
+## Task 2: Use the variable to investigate one country
+
+**Feature:** <GrafanaFeature>Dashboard variables</GrafanaFeature>
+
+Now you'll wire the variable into the **Initiate Checkout Actions by Status Code** panel, and use it to surface what's actually happening in GB.
+
+### Note the current error rate
+
+Before you make any changes, look at the **Initiate Checkout Actions by Status Code** (or similarly named) panel on your dashboard and note the current ratio of error responses (4xx/5xx) to successful ones (2xx). This is the aggregate view across all geographies.
 
 ### Filter to GB and observe
 
 1. Set the **Geography** dropdown to `GB`.
-2. Look at the **Requests by Status Code** panel again.
+2. Look at the **Initate Checkout Actions by Status Code** panel again.
 
-**The error rate should be noticeably higher than what you saw before.** In the aggregate view of all requests, GB's errors were diluted because of successful traffic from every other market. When the graph is scoped to GB only, the signal is clear.
+    **The error rate should be noticeably higher than what you saw before.** In the aggregate view of all requests, GB's errors were diluted, because of successful traffic from every other territory. But, when the graph is scoped to GB only, the signal is clear - users in this country are experiencing elevated error rates:
+
+    <video autoPlay loop muted={true} playsInline style={{width:'100%', borderRadius:'8px'}}>
+    <source src={useBaseUrl('/img/variables_switching.webm')} type="video/webm" />
+    </video>
 
 This is the value of segment-level filtering over aggregate dashboards: the problem was always there — it just wasn't visible until you looked at the right slice of data.
 

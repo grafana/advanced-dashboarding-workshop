@@ -26,9 +26,6 @@ Organizing your dashboards into folders helps keep your Grafana instance tidy an
 
 Now let's create the initial dashboard. We want to show the number of frontend sessions and the number of checkout orders, along with a couple of other relevant panels. Grafana Assistant can help you create this dashboard in seconds.
 
-<Tabs groupId="implementation-methods">
-  <TabItem value="ai" label="With Grafana Assistant">
-
 1.  From the side menu, click **Assistant**.
 
 2.  Enter the following prompt to create a dashboard:
@@ -60,16 +57,16 @@ Now let's create the initial dashboard. We want to show the number of frontend s
     
 4.  Once you're happy with your dashboard, save your changes by clicking **Save**, then **select your personal folder**, and click the **Save** button.
 
-</TabItem>
-  <TabItem value="manual" label="From a template">
+<details>
+  <summary>Not using Grafana Assistant? Click here.</summary>
 
-1.  From the top bar, search for the dashboard **Ecommerce Operations (Starter)**.
+  If you're not using Grafana Assistant to create your dashboard, you can import a starter dashboard which has been pre-installed into the environment for you:
 
-2.  When the dashboard has loaded, click **Edit** and then **Save as copy** to save to your personal folder.
+  1.  From the search bar in Grafana at the top of the screen, search for the dashboard **Ecommerce Operations (Starter)** and open it.
 
-</TabItem>
+  2.  Once the dashboard has loaded, click **Edit** and then **Save as copy** to save to your personal folder.
 
-</Tabs>
+</details>
 
 
 ## What's next

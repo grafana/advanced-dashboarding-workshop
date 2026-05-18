@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 **Features: Actions**
 
-The investigation is complete: GB mobile customers are hitting payment timeouts. The VP wants to act immediately -- cancel the affected orders immediately, so that the stock is released for new customers during the sale -- without waiting for a developer to write a script.
+The investigation is complete: GB mobile customers are hitting payment failures. The VP wants to act immediately -- cancel the affected orders immediately, so that the stock is released for new customers during the sale -- without waiting for a developer to write a script.
 
 An **Action** lets you attach an interactive button to a panel that fires an HTTP request when clicked. You'll build a table of affected orders from MySQL and wire a one-click cancel button directly into it. When you click the button, it sends a POST to an API with the order number.
 
@@ -37,7 +37,6 @@ We'll add a new panel to the dashboard that shows a table of failed orders.
    JOIN customers c ON o.customer_id = c.customer_id
    WHERE $__timeFilter(o.order_date)
      AND c.country IN (${geography:singlequote})   -- references the 'geography' variable
-     AND o.device  IN (${device:singlequote})      -- references the 'device' variable
      AND o.status != 'completed'
    ORDER BY o.order_date DESC
    LIMIT 20
@@ -45,7 +44,7 @@ We'll add a new panel to the dashboard that shows a table of failed orders.
    
    :::grot-tip
 
-   Notice how we're baking in the _geography_ and _device_ dashboard variables into the query, so that we show results that are relevant to the current dashboard context.
+   Notice how we're baking in the _geography_ dashboard variable into the query, so that we show results that are relevant to the current dashboard context.
 
    :::
 
@@ -53,51 +52,43 @@ We'll add a new panel to the dashboard that shows a table of failed orders.
 
 Add a couple of field overrides to make the table look nice. Use this Assistant prompt to help you:
 
-<Tabs groupId="implementation-methods">
-  <TabItem value="ai" label="Grafana Assistant">
 ```assistant title="Suggested prompt"
-In the Recent Orders table, format the Amount column as dollars, and change the Status column to pill view, with payment_timeout in red, cancelled in blue, and completed in green
+In the Incomplete Orders table, format the Amount column as dollars, and change the Status column to pill view, with payment_failure in red, cancelled in blue, and completed in green
 ```
-</TabItem>
-  <TabItem value="manual" label="Manual steps">
+
+![Incomplete orders table with formatting](/img/incomplete_orders_table.webp)
+
+<details>
+  <summary>Curious how to do this without Grafana Assistant?</summary>
+
 1. Add a field override for the **Amount** column:
    - Choose **Fields with name** then select **Amount**.
    - Add override property:
-     - Type: **Standard options > Unit**
-     - Value: **Currency / Dollars ($)**
+      - Type: **Standard options > Unit**
+      - Value: **Currency / Dollars ($)**
 
 2. Add a second field override for the **Status** column:
    - Matcher: `byName` → `Status`
    - Cell type: `Color text`
    - Value mappings:
-      - `payment_timeout` → red, display text `Payment Timeout`
+      - `payment_failure` → red, display text `Payment Failure`
       - `cancelled` → blue, display text `Cancelled`
       - `completed` → green, display text `Completed`
-</TabItem>
-</Tabs>
+
+</details>
 
 ## Task 2: Cancel failed orders with an Action button
 
 ### Set up the Actions column
 
-1. Add a field override for **Actions**:
-    - Matcher: `byName` → `Actions`
-   - Add override property:
-      - Cell type: **Actions** (this renders the column as buttons)
+1.  Edit the **Incomplete Orders** panel.
 
-2. Open [webhook.site](https://webhook.site) in a new tab. Copy your unique URL -- this is where the order cancellation request will be sent.
+2.  In the panel settings sidebar, under **Data links and actions**, under the **Actions** heading, click **Add action**.
 
-3. Under **Data links and actions**, under the **Actions** heading, click **Add action**.
-
-   - Title: **Cancel order**
-   - Connection: **Direct from browser**
-   - Method: **POST**
-   - 
-
-4. On the **Actions** field override from step 7, add a Viz Action with this config:
-    - **Title:** `Cancel Order`
-    - **Type:** Fetch
-    - **Method:** POST
+    - Title: **Cancel order**
+    - Confirmation message: `Do you really want to cancel order ${__data.fields['Order ID']}?`
+    - Connection: **Direct from browser**
+    - Method: **POST**
     - URL: `https://<ID>.aws.work-shop.grafana.net/api/cancel` (replace `<ID>` with your workshop ID)
     - Headers: `Content-Type: application/json`
     - **Body:**
@@ -107,14 +98,19 @@ In the Recent Orders table, format the Amount column as dollars, and change the 
         "admin_password": "astronomix-admin"
       }
       ```
-      
+
       :::grot-tip
 
       Notice how we reference data fields from the panel using the `__data.fields` structure.
-   
+
       :::
 
-    - **Confirmation:** `Do you really want to cancel order ${__data.fields['Order ID']}?`
+4. Scroll to the bottom and click the **Add field override** button.
+
+   - Use the **Fields with name** option
+   - Set the field name to `Actions`
+   - Click **Add override property**
+   - Set the property to **Cell type** and choose **Actions** (this renders the column as buttons).
 
 5. Click **Apply**, then **Save** the dashboard.
 
@@ -122,11 +118,13 @@ In the Recent Orders table, format the Amount column as dollars, and change the 
 
 Now let's verify the action works, by cancelling a couple of orders:
 
-1. Filter to `$geography = GB`, `$device = Mobile-iOS` -- you should see payment timeout orders
+1. Filter to `$geography = GB` -- you should see payment failed orders
 2. Click the **Cancel Order** button on a row
 3. Confirm the dialog, then the request should fire.
-4. Refresh the dashboard and you should see the order status change to `cancelled`.
-5. Try performing this for another couple of orders and see how what happens.
+4. Refresh the dashboard and you should see the order status change to `canceled`.
+5. Try performing this for another couple of orders and see what happens.
+
+![Incomplete orders table with actions](/img/incomplete_actions.webp)
 
 :::grot-tip
 

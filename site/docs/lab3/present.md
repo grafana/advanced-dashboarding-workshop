@@ -49,7 +49,7 @@ The dashboard already has a plain Markdown text panel at the top. Before we add 
    Or, if your dashboard doesn't have a banner panel, click **Add panel** and select the **Text** panel type.
 
 2. In the panel editor, change **Content type** from `Markdown` to `HTML`.
-3. Replace the content with an HTML `<div>` that uses a dark gradient background, bold white title, and a subtitle line referencing the Geography/Device filters and annotations. For example:
+3. Replace the content with an HTML `<div>` that uses a dark gradient background, bold white title, and a subtitle line referencing the Geography filter and annotations. For example:
 
    ```html
    <div style="background: linear-gradient(135deg, #0d1b3e 0%, #1a2f6e 35%, #2d1b69 70%, #4a1459 100%); padding: 18px 28px; border-radius: 8px; border-left: 5px solid #5b8dee; height: 100%; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box;">
@@ -73,7 +73,7 @@ Now your dashboard:
 - Has **clean, readable labels** instead of verbose Prometheus internals
 - Moves technical content to a separate tab
 
-## The End
+## The end
 
 You've reached the end of this workshop! You can now:
 
@@ -83,5 +83,5 @@ You've reached the end of this workshop! You can now:
 - Bring in your data, wherever it lives with Grafana's rich ecosystem of data sources
 - Use Grafana's rich data processing capabilities to transform your data into insights
 
-Thanks for attending! We look forward to seeing you in another workshop.
+**Thanks for attending! We look forward to seeing you in another workshop very soon.**
 
