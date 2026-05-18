@@ -84,6 +84,13 @@ div[role="tabpanel"] > ol > li {
   line-height: 24px;
 }
 
+.markdown p > img {
+  max-width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .admonition-custom {
   display: flex;
   border-radius: var(--ifm-alert-border-radius);
