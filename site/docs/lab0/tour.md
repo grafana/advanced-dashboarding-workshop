@@ -93,4 +93,4 @@ That's the whole tour. You now know how to:
 - Change the **time range** and refresh data
 - **Search** for dashboards and set your preferred theme
 
-That's all the orientation you need. When you're ready, click **Next** to start [Lab 1](../lab1), where you'll build your first dashboard from scratch.
+That's all the orientation you need. When you're ready, click **Next** to start Lab 1, where you'll build your first dashboard from scratch.
