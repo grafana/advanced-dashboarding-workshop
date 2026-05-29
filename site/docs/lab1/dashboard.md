@@ -26,6 +26,20 @@ Organizing your dashboards into folders helps keep your Grafana instance tidy an
 
 Now let's create the initial dashboard. We want to show the number of frontend sessions and the number of checkout orders, along with a couple of other relevant panels. Grafana Assistant can help you create this dashboard in seconds.
 
+:::info[How Grafana Assistant builds your dashboard]
+
+Assistant works inside its **panel on the right-hand side** of the screen. When you send a prompt, it inspects your available data sources, writes the queries, and assembles the panels for you — narrating each step as it goes.
+
+While Assistant is working:
+
+- **Stay on this page.** Don't navigate away or refresh the browser, or Assistant will lose its progress.
+- **Let it drive.** Leave the left-hand navigation menu and the dashboard alone until it finishes.
+- **You'll know it's done** when it stops streaming text, gives you a short summary of what it built, and the finished dashboard appears behind the panel.
+
+This first dashboard can take a minute or two to build. That's normal.
+
+:::
+
 1.  From the side menu, click **Assistant**.
 
 2.  Enter the following prompt to create a dashboard:

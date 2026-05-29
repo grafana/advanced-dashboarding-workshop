@@ -1,6 +1,6 @@
 {
   "label": "Lab 1 - Build a single pane of glass",
-  "position": 1,
+  "position": 3,
   "link": {
     "type": "generated-index",
     "description": "Add context to a dashboard by adding a datasource, annotations and a transformation."

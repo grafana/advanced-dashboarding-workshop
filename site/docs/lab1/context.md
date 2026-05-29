@@ -73,9 +73,9 @@ Nice job. You've just added a new panel to the dashboard which shows the number 
 <details>
   <summary>Curious how to do this without Grafana Assistant?</summary>
 
-  1.  Click **Add** → **Panel** in the dashboard.
+  1.  Click the **Add new element** icon (the blue plus sign) in the top-right corner, then click or drag a panel onto the dashboard.
 
-  2.  Set the **Title** to `Orders this period`.
+  2.  Set the **Title** to `Orders this period` then click **Configure visualization**.
 
   3.  In the **Queries** tab, use this query:
 
@@ -89,17 +89,17 @@ Nice job. You've just added a new panel to the dashboard which shows the number 
           WHERE $__timeFilter(order_date)
           ```
           
-  4. Change the visualization type to **Stat** (make sure 'All visualizations' is selected).
+  4. Change the visualization type to **Stat**. The picker opens on the **Suggestions** view — click **All visualizations** first, then choose **Stat**. (Search doesn't work while you're in the Suggestions view.)
 
   5. (Optional) In the panel properties sidebar, click the **Search** icon, and search and set the following properties:
 
       - Search for `unit` and set **Standard options -> Unit** to **Short**.
       - Search for `color` and set **Stat styles -> Color mode** to **Background Solid**.
-      - Search for `color` and set **Standard options -> Color scheme** to **Single color** and set the color to purple.
+      - Search for `color` and set **Standard options -> Color scheme** to **Single color**, then pick any one of the **preset colors** from the swatches at the top of the color picker.
 
-  6. (Optional) Drag the panel into the top row, resizing the other panels as necessary.
+  6. Click **Back to dashboard**, and drag the panel into the top row, resizing the other panels as necessary.
 
-  7. Click **Apply**.
+  7. Save your work!
 
 </details>
 
@@ -206,6 +206,10 @@ Follow these steps to add the annotations:
 ### Review the annotations
 
 Go back to your dashboard and look at the time series panels. You should now see vertical lines marking when the campaign launched and when each email was sent.  Now we can understand exactly why traffic and conversions have suddenly increased.
+
+:::info
+If you don't see the annotations, try refreshing the page.
+:::
 
 Hover over an annotation line to see its title and description:
 

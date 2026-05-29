@@ -1,0 +1,8 @@
+{
+  "label": "Lab 0 - Get to know Grafana",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "New to Grafana? Take a quick tour of the interface so you know your way around before the workshop begins."
+  }
+}

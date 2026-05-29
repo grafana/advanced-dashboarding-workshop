@@ -112,7 +112,7 @@ In the Incomplete Orders table, format the Amount column as dollars, and change 
    - Click **Add override property**
    - Set the property to **Cell type** and choose **Actions** (this renders the column as buttons).
 
-5. Click **Apply**, then **Save** the dashboard.
+5. Click **Back to dashboard**, then click the blue **Save** button.
 
 ### Verify it works
 

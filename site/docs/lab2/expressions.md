@@ -32,7 +32,7 @@ We'll use it to calculate **Revenue per Session (RPS)**: how much revenue, on av
 
 ### Add the two sources of data
 
-1. Click **Add** → **Panel** in the dashboard.
+1. Click the **Add new element** icon (the blue plus sign) in the top-right corner, then click or drag a panel onto the dashboard.
 
 2. Set the **Title** to `Revenue per session`, then click **Configure** to open the panel editor.
 
@@ -82,7 +82,7 @@ We'll use it to calculate **Revenue per Session (RPS)**: how much revenue, on av
 
 3. Click the **eye icon** on queries A and B to hide them, so only the expression result is visualized.
 
-4. Change the visualization type to **Stat**.
+4. Change the visualization type to **Stat**. The picker opens on the **Suggestions** view — click **All visualizations** first, then choose **Stat**. (Search doesn't work while you're in the Suggestions view.)
 
 ### Style it out
 

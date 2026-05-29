@@ -46,7 +46,7 @@ The dashboard already has a plain Markdown text panel at the top. Before we add 
 
 1. Click the banner panel → **Edit**.
 
-   Or, if your dashboard doesn't have a banner panel, click **Add panel** and select the **Text** panel type.
+   Or, if your dashboard doesn't have a banner panel, click the **Add new element** icon (the blue plus sign), add a panel to the dashboard, and select the **Text** panel type.
 
 2. In the panel editor, change **Content type** from `Markdown` to `HTML`.
 3. Replace the content with an HTML `<div>` that uses a dark gradient background, bold white title, and a subtitle line referencing the Geography filter and annotations. For example:
@@ -63,7 +63,7 @@ The dashboard already has a plain Markdown text panel at the top. Before we add 
    </div>
    ```
 4. **Clear the panel title**, and ensure **Transparent background** is selected.
-6. Click **Apply**.
+5. Click **Back to dashboard**, then click the blue **Save** button.
 
 ## Wrapping up
 
