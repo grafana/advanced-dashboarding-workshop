@@ -205,3 +205,33 @@ div[role="tabpanel"] > ol > li {
   background: linear-gradient(135deg, rgb(249, 115, 22), rgb(168, 85, 247));
   z-index: 2;
 }
+/* The PDF exporter prints one rendered documentation page at a time. */
+@media print {
+  .navbar,
+  .footer,
+  .theme-doc-sidebar-container,
+  .pagination-nav,
+  .table-of-contents,
+  .theme-doc-toc-mobile,
+  .theme-back-to-top-button,
+  .clean-btn {
+    display: none !important;
+  }
+
+  .main-wrapper,
+  .docMainContainer,
+  .docItemContainer {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .docItemContainer {
+    padding: 0 !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    overflow-wrap: anywhere;
+  }
+}

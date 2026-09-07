@@ -28,6 +28,14 @@ npm run build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
+### Export a PDF
+
+```
+npm run export:pdf
+```
+
+This builds the workshop, prints the introductory page and every lab/exercise page, and writes the combined file to `pdf/advanced-dashboarding-workshop.pdf`. The export requires Chrome or Chromium, Python 3, `curl`, and Poppler's `pdfunite` utility. Set `PDF_EXPORT_PORT` if port `4173` is already in use.
+
 ## Deployment
 
 The site is published to GitHub Pages at https://grafana.github.io/advanced-dashboarding-workshop/. Pushes to `main` are deployed automatically by the [`deploy-site.yml`](../.github/workflows/deploy-site.yml) GitHub Actions workflow — there's no need to deploy by hand.
